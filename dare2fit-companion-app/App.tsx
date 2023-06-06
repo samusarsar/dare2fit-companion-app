@@ -4,13 +4,13 @@ import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import { IAppContextValue, IUserData } from "./common/types";
-import ActivityLogger from "./components/Activity/Activity";
-import LogIn from "./components/LogIn/LogIn";
 import { auth, db } from "./config/firebase-config";
 import { AppContext } from "./context/AppContext/AppContext";
+import LogIn from "./views/LogIn/LogIn";
+import Activity from "./views/Activity/Activity";
 
 export default function App() {
-  const [user] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
   const [appState, setAppState] = useState<IAppContextValue>({
     user,
     userData: null,
@@ -43,13 +43,17 @@ export default function App() {
     );
   }, [user]);
 
-  return (
-    <NativeBaseProvider theme={theme}>
-      <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
-        {!user ? <LogIn /> : <ActivityLogger />}
-      </AppContext.Provider>
-    </NativeBaseProvider>
-  );
+  if ((!loading && !user) || (!loading && user && appState.userData)) {
+    return (
+      <NativeBaseProvider theme={theme}>
+        <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
+          {!user ? <LogIn /> : <Activity />}
+        </AppContext.Provider>
+      </NativeBaseProvider>
+    );
+  }
+
+  return null;
 }
 
 const theme = extendTheme({
