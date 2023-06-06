@@ -1,13 +1,13 @@
-import { StatusBar } from "expo-status-bar";
+import { equalTo, onValue, orderByChild, query, ref } from "firebase/database";
 import { NativeBaseProvider, extendTheme } from "native-base";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { StyleSheet, Text, View } from "react-native";
 
-import { IAppContextValue } from "./common/types";
+import { IAppContextValue, IUserData } from "./common/types";
+import ActivityLogger from "./components/Activity/Activity";
 import LogIn from "./components/LogIn/LogIn";
-import { auth } from "./config/firebase-config";
-import { logoutUser } from "./services/auth.services";
+import { auth, db } from "./config/firebase-config";
+import { AppContext } from "./context/AppContext/AppContext";
 
 export default function App() {
   const [user] = useAuthState(auth);
@@ -27,29 +27,27 @@ export default function App() {
 
   useEffect(() => {
     if (!user) {
-      console.log("logging in");
-      // loginUser('samusar@dare2fit.bg', '123456');
       return () => {};
-      // return () => {
-      //     return;
-      // };
     }
-    logoutUser();
-    console.warn(user);
-    // return onValue(query(ref(db, `users`), orderByChild('uid'), equalTo(user.uid)), (snapshot) => {
-    //     if (snapshot.exists()) {
-    //         const userData = Object.values(snapshot.val())[0] as IUserData;
-    //         setAppState({
-    //             ...appState,
-    //             userData,
-    //         });
-    //     }
-    // });
+    return onValue(
+      query(ref(db, `users`), orderByChild("uid"), equalTo(user.uid)),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const userData = Object.values(snapshot.val())[0] as IUserData;
+          setAppState({
+            ...appState,
+            userData,
+          });
+        }
+      }
+    );
   }, [user]);
 
   return (
     <NativeBaseProvider theme={theme}>
-      {!user ? <LogIn /> : <Text>Logged In</Text>}
+      <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
+        {!user ? <LogIn /> : <ActivityLogger />}
+      </AppContext.Provider>
     </NativeBaseProvider>
   );
 }

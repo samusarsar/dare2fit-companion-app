@@ -1,3 +1,4 @@
+import { MaterialIcons } from "@expo/vector-icons";
 import {
   Box,
   Button,
@@ -5,13 +6,75 @@ import {
   FormControl,
   HStack,
   Heading,
+  Icon,
   Input,
   Link,
   Text,
   VStack,
 } from "native-base";
+import { useContext, useRef, useState } from "react";
+import { Pressable } from "react-native";
+
+import { AppContext } from "../../context/AppContext/AppContext";
+import { loginUser } from "../../services/auth.services";
 
 const LogIn = () => {
+  const { setContext } = useContext(AppContext);
+
+  const [form, setForm] = useState({
+    email: "",
+    emailError: "",
+    password: "",
+    passwordError: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const handleSubmit = () => {
+    if (form.email.split("@").length !== 2) {
+      setForm({
+        ...form,
+        emailError: "Invalid email format.",
+      });
+      return;
+    }
+
+    setLoading(true);
+    loginUser(form.email, form.password)
+      .then((credential) =>
+        setContext!({
+          user: credential.user,
+          userData: null,
+        })
+      )
+      .then(() => {
+        setForm({
+          ...form,
+          emailError: "",
+          passwordError: "",
+        });
+      })
+      .catch((e) => {
+        switch (e.message) {
+          case "Firebase: Error (auth/user-not-found).":
+            setForm({
+              ...form,
+              emailError: "No registered users with this email.",
+              passwordError: "",
+            });
+            break;
+          case "Firebase: Error (auth/wrong-password).":
+            setForm({
+              ...form,
+              emailError: "",
+              passwordError: "Password incorrect.",
+            });
+            break;
+        }
+      })
+      .finally(() => setLoading(false));
+  };
+
   return (
     <Center w="100%" h="100%" alignContent="center">
       <Box safeArea p="2" py="8" w="90%" maxW="290">
@@ -36,31 +99,60 @@ const LogIn = () => {
         >
           Sign in to continue!
         </Heading>
-
         <VStack space={3} mt="5">
-          <FormControl>
+          <FormControl isInvalid={!!form.emailError}>
             <FormControl.Label>Email</FormControl.Label>
-            <Input />
+            <Input
+              onChangeText={(e) =>
+                setForm({
+                  ...form,
+                  email: e,
+                })
+              }
+            />
+            <FormControl.ErrorMessage>
+              {form.emailError}
+            </FormControl.ErrorMessage>
           </FormControl>
-          <FormControl>
+          <FormControl isInvalid={!!form.passwordError}>
             <FormControl.Label>Password</FormControl.Label>
-            <Input type="password" />
-            <Link
-              _text={{
-                fontSize: "xs",
-                fontWeight: "500",
-                color: "indigo.500",
-              }}
-              alignSelf="flex-end"
-              mt="1"
-            >
-              Forget Password?
-            </Link>
+            <Input
+              type={show ? "text" : "password"}
+              InputRightElement={
+                <Pressable onPress={() => setShow(!show)}>
+                  <Icon
+                    as={
+                      <MaterialIcons
+                        name={show ? "visibility" : "visibility-off"}
+                      />
+                    }
+                    size={5}
+                    mr="2"
+                    color="muted.400"
+                  />
+                </Pressable>
+              }
+              placeholder="Password"
+              onChangeText={(p) =>
+                setForm({
+                  ...form,
+                  password: p,
+                })
+              }
+            />
+            <FormControl.ErrorMessage>
+              {form.passwordError}
+            </FormControl.ErrorMessage>
           </FormControl>
-          <Button mt="2" colorScheme="purple">
-            Sign in
+          <Button
+            mt="2"
+            colorScheme="purple"
+            isLoading={loading}
+            onPress={handleSubmit}
+          >
+            Log in
           </Button>
-          <HStack mt="6" justifyContent="center">
+          {/* <HStack mt="6" justifyContent="center">
             <Text
               fontSize="sm"
               color="coolGray.600"
@@ -80,7 +172,7 @@ const LogIn = () => {
             >
               Sign Up
             </Link>
-          </HStack>
+          </HStack> */}
         </VStack>
       </Box>
     </Center>
