@@ -1,9 +1,11 @@
 import { StatusBar } from "expo-status-bar";
+import { NativeBaseProvider, extendTheme } from "native-base";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { StyleSheet, Text, View } from "react-native";
 
 import { IAppContextValue } from "./common/types";
+import LogIn from "./components/LogIn/LogIn";
 import { auth } from "./config/firebase-config";
 import { logoutUser } from "./services/auth.services";
 
@@ -46,18 +48,25 @@ export default function App() {
   }, [user]);
 
   return (
-    <View style={styles.container}>
-      {!user ? <Text>Not Logged In</Text> : <Text>Logged In</Text>}
-      <StatusBar style="auto" />
-    </View>
+    <NativeBaseProvider theme={theme}>
+      {!user ? <LogIn /> : <Text>Logged In</Text>}
+    </NativeBaseProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+const theme = extendTheme({
+  colors: {
+    // Add new color
+    brand: {
+      white: "#FFFFFF",
+      light: "#EDF2F7",
+      red: "#F24968",
+      blue: "#6929F2",
+      purple: "#9B72F2",
+      green: "#14D990",
+      yellow: "#F2B807",
+      grey: "#2D3748",
+      dark: "#1A202C",
+    },
   },
 });

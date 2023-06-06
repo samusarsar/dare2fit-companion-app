@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "dare2fit-app",
-    "slug": "dare2fit-app",
+    "name": "dare2fit-companion-app",
+    "slug": "dare2fit-companion-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
