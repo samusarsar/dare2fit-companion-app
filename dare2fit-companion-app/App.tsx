@@ -6,8 +6,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { IAppContextValue, IUserData } from "./common/types";
 import { auth, db } from "./config/firebase-config";
 import { AppContext } from "./context/AppContext/AppContext";
-import LogIn from "./views/LogIn/LogIn";
-import Activity from "./views/Activity/Activity";
+import Activity from "./tabs/Activity/Activity";
+import LogIn from "./tabs/LogIn/LogIn";
+import TabNavigation from "./tabs/TabNavigation";
 
 export default function App() {
   const [user, loading] = useAuthState(auth);
@@ -15,8 +16,6 @@ export default function App() {
     user,
     userData: null,
   });
-
-  console.warn(user);
 
   if (appState.user !== user) {
     setAppState({
@@ -47,7 +46,7 @@ export default function App() {
     return (
       <NativeBaseProvider theme={theme}>
         <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
-          {!user ? <LogIn /> : <Activity />}
+          {!user ? <LogIn /> : <TabNavigation />}
         </AppContext.Provider>
       </NativeBaseProvider>
     );

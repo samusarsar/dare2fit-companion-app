@@ -1,0 +1,365 @@
+import {
+  get,
+  set,
+  ref,
+  query,
+  equalTo,
+  orderByChild,
+  update,
+} from "firebase/database";
+import { getDownloadURL, ref as sRef, uploadBytes } from "firebase/storage";
+import moment from "moment";
+
+import { addNotification } from "./notification.services";
+import { ACTIVITY_LEVEL_DATA, WEIGHT_GOAL_DATA } from "../common/constants";
+import {
+  ActivityLevel,
+  FriendRequestType,
+  Gender,
+  UserRoles,
+  WeightGoal,
+} from "../common/enums";
+import { IUserData } from "../common/types";
+import { db, storage } from "../config/firebase-config";
+
+/**
+ * Retrieves a user by their handle.
+ * @param {string} handle - The user handle.
+ * @return {Promise<any>} A promise that resolves with the user data.
+ * @throws {Error} If the user doesn't exist.
+ */
+export const getUserByHandle = (handle: string) => {
+  return get(ref(db, `users/${handle}`)).then((snapshot) => {
+    if (!snapshot.exists()) {
+      throw new Error("No such user.");
+    }
+
+    return snapshot.val();
+  });
+};
+
+/**
+ * Retrieves a user by their telephone.
+ * @param {string} telephone - The user telephone.
+ * @return {Promise<any>} A promise that resolves with the user data.
+ * @throws {Error} If the user doesn't exist.
+ */
+export const getUserByTelephone = (telephone: string) => {
+  return get(
+    query(ref(db, `users`), orderByChild("telephone"), equalTo(telephone))
+  ).then((snapshot) => {
+    if (!snapshot.exists()) {
+      throw new Error("No such user.");
+    }
+
+    return snapshot.val();
+  });
+};
+
+/**
+ * Creates a new user.
+ * @param {string} handle - The user handle.
+ * @param {string} uid - The user UID.
+ * @param {string} email - The user email.
+ * @param {string} telephone - The user email.
+ * @param {string} firstName - The user's first name.
+ * @param {string} lastName - The user's last name.
+ * @return {Promise<void>} A promise that resolves when the user is created.
+ */
+export const createUser = (
+  handle: string,
+  uid: string,
+  email: string,
+  telephone: string,
+  firstName: string,
+  lastName: string
+): Promise<void> => {
+  const createdOn = moment(new Date()).format("DD/MM/YYYY HH:mm:ss");
+  return set(ref(db, `users/${handle}`), {
+    handle,
+    uid,
+    email,
+    telephone,
+    createdOn,
+    firstName,
+    lastName,
+    role: UserRoles.Base,
+  });
+};
+
+/**
+ * Retrieves user data by their UID.
+ * @param {string} uid - The user UID.
+ * @return {Promise<any>} A promise that resolves with the user data.
+ * @throws {Error} If the user doesn't exist.
+ */
+export const getUserData = (uid: string) => {
+  return get(query(ref(db, "users"), orderByChild("uid"), equalTo(uid))).then(
+    (snapshot) => {
+      if (!snapshot.exists()) {
+        throw new Error("No such user.");
+      }
+
+      return snapshot.val();
+    }
+  );
+};
+
+/**
+ * Retrieves all users.
+ * @return {Promise<any>} A promise that resolves with the user data.
+ * @throws {Error} If no users are found.
+ */
+export const getAllUsers = (): Promise<IUserData[]> => {
+  return get(ref(db, `users`)).then((snapshot) => {
+    if (!snapshot.exists()) {
+      throw new Error("No users found");
+    }
+
+    return snapshot.val();
+  });
+};
+
+/**
+ * Retrieves all friends of a user by the user's handle.
+ * @param {string} handle - The user handle.
+ * @return {Promise<any>} A promise that resolves with the handles of all the user's friends.
+ * @throws {Error} If the user doesn't have friends.
+ */
+export const getUserFriends = (handle: string) => {
+  return get(ref(db, `users/${handle}/friends`)).then((snapshot) => {
+    if (!snapshot.exists()) {
+      throw new Error("No friends found for this user");
+    }
+
+    return snapshot.val();
+  });
+};
+
+/**
+ * Retrieves the friend requests for a user.
+ * @param {string} handle - The handle of the user.
+ * @param {FriendRequestType} type - The type of friend request to retrieve.
+ * @return {Promise<any>} - A Promise that resolves to the friend requests data.
+ * @throws {Error} - If no friend requests are found for the user.
+ */
+export const getUserFriendRequests = (
+  handle: string,
+  type: FriendRequestType
+) => {
+  return get(ref(db, `users/${handle}/${type}FriendRequests`)).then(
+    (snapshot) => {
+      if (!snapshot.exists()) {
+        throw new Error("No such friend requests found for this user");
+      }
+
+      return snapshot.val();
+    }
+  );
+};
+
+export const sendFriendRequest = (sender: string, recipient: string) => {
+  return get(ref(db, `users/${sender}/sentFriendRequests`))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        update(ref(db, `users/${sender}/sentFriendRequests`), {
+          [recipient]: true,
+        });
+      } else {
+        set(ref(db, `users/${sender}/sentFriendRequests`), {
+          [recipient]: true,
+        });
+      }
+    })
+    .then(() => get(ref(db, `users/${recipient}/receivedFriendRequests`)))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        update(ref(db, `users/${recipient}/receivedFriendRequests`), {
+          [sender]: true,
+        });
+      } else {
+        set(ref(db, `users/${recipient}/receivedFriendRequests`), {
+          [sender]: true,
+        });
+      }
+    })
+    .then(() =>
+      addNotification(recipient, `${sender} sent you a friend request.`)
+    );
+};
+
+export const resolveRequestBySender = (sender: string, recipient: string) => {
+  return update(ref(db, `users/${sender}/sentFriendRequests`), {
+    [recipient]: null,
+  }).then(() =>
+    update(ref(db, `users/${recipient}/receivedFriendRequests`), {
+      [sender]: null,
+    })
+  );
+};
+
+export const resolveRequestByRecipient = (
+  recipient: string,
+  sender: string
+) => {
+  return update(ref(db, `users/${recipient}/receivedFriendRequests`), {
+    [sender]: null,
+  }).then(() =>
+    update(ref(db, `users/${sender}/sentFriendRequests`), { [recipient]: null })
+  );
+};
+
+export const makeFriends = (accepting: string, accepted: string) => {
+  return resolveRequestByRecipient(accepting, accepted)
+    .then(() => get(ref(db, `users/${accepting}/friends`)))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        update(ref(db, `users/${accepting}/friends`), { [accepted]: true });
+      } else {
+        set(ref(db, `users/${accepting}/friends`), { [accepted]: true });
+      }
+    })
+    .then(() => get(ref(db, `users/${accepted}/friends`)))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        update(ref(db, `users/${accepted}/friends`), { [accepting]: true });
+      } else {
+        set(ref(db, `users/${accepted}/friends`), { [accepting]: true });
+      }
+    })
+    .then(() =>
+      addNotification(accepted, `${accepting} accepted your friend request!`)
+    );
+};
+
+export const unFriend = (remover: string, removed: string) => {
+  return update(ref(db, `users/${remover}/friends`), { [removed]: null })
+    .then(() =>
+      update(ref(db, `users/${removed}/friends`), { [remover]: null })
+    )
+    .then(() => addNotification(removed, `${remover} unfriended you.`));
+};
+
+export const editUserDetails = ({
+  handle,
+  propKey,
+  propValue,
+}: {
+  handle: string;
+  propKey: string;
+  propValue: string;
+}) => {
+  return update(ref(db, `users/${handle}`), {
+    [propKey]: propValue,
+  });
+};
+
+export const changeAvatar = (handle: string, avatar: File) => {
+  const fileRef = sRef(storage, `users/${handle}/avatar`);
+  return uploadBytes(fileRef, avatar)
+    .then(() => getDownloadURL(fileRef))
+    .then((url) =>
+      editUserDetails({ handle, propKey: "avatarURL", propValue: url })
+    );
+};
+
+export const editUserHealthNumberData = ({
+  handle,
+  propKey,
+  propValue,
+  isMetric,
+}: {
+  handle: string;
+  propKey: string;
+  propValue: number;
+  isMetric: boolean;
+}) => {
+  const coeffMetricToImperial = propKey === "weight" ? 2.2 : 0.033;
+
+  const metricValue = isMetric
+    ? propValue.toFixed(1)
+    : (propValue / coeffMetricToImperial).toFixed(1);
+  const imperialValue = isMetric
+    ? (propValue * coeffMetricToImperial).toFixed(1)
+    : propValue.toFixed(1);
+
+  return update(ref(db, `users/${handle}/health`), {
+    [`${propKey}Metric`]: +metricValue,
+    [`${propKey}Imperial`]: +imperialValue,
+  });
+};
+
+/**
+ * Edits a specific property of a user's health data.
+ * @param {string} handle - The user's handle.
+ * @param {string} propKey - The key of the property to edit.
+ * @param {string} propValue - The new value for the property.
+ * @return {Promise} A Promise that resolves when the update is completed.
+ */
+export const editUserHealthData = (
+  handle: string,
+  propKey: string,
+  propValue: string
+) => {
+  return update(ref(db, `users/${handle}/health`), {
+    [propKey]: propValue ? propValue : null,
+  });
+};
+
+/**
+ * Calculates the Basal Metabolic Rate (BMR) based on user data.
+ * @param {IUserData} userData - The user data object.
+ * @return {number} The calculated BMR value or 0 if the necessary data is missing.
+ */
+export const calculateBmr = (userData: IUserData) => {
+  const profileActivityLevel =
+    userData.health?.activityLevel || ActivityLevel.noActivity;
+
+  if (userData.health) {
+    const { weightMetric, heightMetric, gender } = userData.health;
+
+    if (weightMetric && heightMetric && gender && userData.dateOfBirth) {
+      const age = moment().diff(
+        moment(userData.dateOfBirth, "DD/MM/YYYY"),
+        "years"
+      );
+      return gender === Gender.male
+        ? Math.round(
+            (10 * weightMetric + 6.25 * heightMetric - 5 * age + 5) *
+              ACTIVITY_LEVEL_DATA[profileActivityLevel].index
+          )
+        : Math.round(
+            (10 * weightMetric + 6.25 * heightMetric - 5 * age - 161) *
+              ACTIVITY_LEVEL_DATA[profileActivityLevel].index
+          );
+    }
+  }
+  return 0;
+};
+
+/**
+Calculates the daily calorie intake based on the user's data.
+@param {IUserData} userData - The user data object.
+@return {number} The calculated daily calorie intake 0 if the necessary data is missing.
+ */
+export const calculateCalories = (userData: IUserData) => {
+  const profileWeightGoal =
+    userData!.health?.weightGoal || WeightGoal.maintainWeight;
+
+  return Math.round(
+    calculateBmr(userData) * WEIGHT_GOAL_DATA[profileWeightGoal].index
+  );
+};
+
+export const changeUserRole = (handle: string, role: UserRoles) => {
+  return update(ref(db, `users/${handle}`), {
+    role,
+  }).then(() => {
+    if (role === UserRoles.Admin) {
+      addNotification(handle, "You are now an admin!");
+    }
+    if (role === UserRoles.Blocked) {
+      addNotification(handle, "You have been blocked.");
+    }
+  });
+};
