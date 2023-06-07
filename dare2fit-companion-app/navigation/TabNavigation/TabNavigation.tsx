@@ -2,14 +2,22 @@ import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Icon, useColorModeValue } from "native-base";
+import { useContext } from "react";
 
+import { AppContext } from "../../context/AppContext/AppContext";
 import Activity from "../../tabs/Activity/Activity";
-import StackNavigation from "../StackNavigation/StackNavigation";
 import Calories from "../../tabs/Calories/Calories";
+import StackNavigation from "../StackNavigation/StackNavigation";
 
 const Tab = createBottomTabNavigator();
 
 const TabNavigation = () => {
+  const { userData } = useContext(AppContext);
+
+  const notifications = userData!.notifications
+    ? Object.entries(userData!.notifications)
+    : null;
+
   const backgroundColor = useColorModeValue("white", "black");
   const contrastColor = useColorModeValue("black", "white");
   const activeColor = useColorModeValue("purple", "plum");
@@ -48,7 +56,10 @@ const TabNavigation = () => {
         <Tab.Screen
           name="ProfileScreen"
           component={StackNavigation}
-          options={{ headerShown: false }}
+          options={{
+            headerShown: false,
+            tabBarBadge: notifications ? notifications.length : undefined,
+          }}
         />
         <Tab.Screen name="Activity" component={Activity} />
         <Tab.Screen name="Calories" component={Calories} />

@@ -33,8 +33,8 @@ const NotificationsList: FC = (): ReactElement => {
           }
 
           return (
-            <Box w="100%">
-              <Box key={timestamp} my={4} w="100%">
+            <Box key={timestamp} w="100%">
+              <Box my={4} w="100%">
                 <SingleNotification
                   notification={notification}
                   timestamp={timestamp}
@@ -46,7 +46,13 @@ const NotificationsList: FC = (): ReactElement => {
           );
         })
       ) : (
-        <HStack w="100%" space={2} alignItems="center" justifyContent="center">
+        <HStack
+          w="100%"
+          space={2}
+          alignItems="center"
+          justifyContent="center"
+          py={4}
+        >
           <Icon as={Ionicons} name="notifications-off-outline" size="xl" />
           <Text fontSize="md">Nothing new here...</Text>
         </HStack>
