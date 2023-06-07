@@ -9,6 +9,7 @@ const CalorieLogger: FC = () => {
   const { userData } = useContext(AppContext);
 
   const background = useColorModeValue("brand.light", "brand.dark");
+  const innerBoxBackground = useColorModeValue("brand.white", "brand.grey");
 
   const today = moment().format("dddd, MMM Do");
 
@@ -19,7 +20,13 @@ const CalorieLogger: FC = () => {
           <Text fontWeight="bold">{today}</Text>
         </Box>
         <VStack w="100%">
-          <VStack w="100%" bg={background} rounded="lg" shadow="lg" p={4}>
+          <VStack
+            w="100%"
+            bg={innerBoxBackground}
+            rounded="lg"
+            shadow="lg"
+            p={4}
+          >
             <CalorieLogButton />
           </VStack>
         </VStack>
