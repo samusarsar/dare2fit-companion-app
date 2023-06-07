@@ -35,6 +35,8 @@ const TabNavigation = () => {
               iconName = focused ? "user-circle" : "user-circle-o";
             } else if (route.name === "Activity") {
               iconName = "heartbeat";
+            } else if (route.name === "Calories") {
+              iconName = "cutlery";
             }
 
             return (
