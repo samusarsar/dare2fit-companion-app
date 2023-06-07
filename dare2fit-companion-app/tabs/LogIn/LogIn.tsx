@@ -1,4 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import {
   Box,
   Button,
@@ -11,10 +12,11 @@ import {
   Input,
   KeyboardAvoidingView,
   ScrollView,
+  Text,
   VStack,
   useColorModeValue,
 } from "native-base";
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { Platform, Pressable } from "react-native";
 
 import ColorModeSwitch from "../../components/Profile/ColorModeSwitch/ColorModeSwitch";
@@ -34,6 +36,8 @@ const LogIn = () => {
   const [show, setShow] = useState(false);
 
   const background = useColorModeValue("brand.light", "brand.dark");
+
+  const { navigate } = useNavigation();
 
   const handleSubmit = () => {
     if (form.email.split("@").length !== 2) {
@@ -178,27 +182,16 @@ const LogIn = () => {
               >
                 Log in
               </Button>
-              {/* <HStack mt="6" justifyContent="center">
-            <Text
-              fontSize="sm"
-              color="coolGray.600"
-              _dark={{
-                color: "warmGray.200",
-              }}
-            >
-              I'm a new user.{" "}
-            </Text>
-            <Link
-              _text={{
-                color: "indigo.500",
-                fontWeight: "medium",
-                fontSize: "sm",
-              }}
-              href="#"
-            >
-              Sign Up
-            </Link>
-          </HStack> */}
+              <HStack mt="6" justifyContent="center" alignItems="center">
+                <Text fontSize="sm">I'm a new user.</Text>
+                <Button
+                  variant="link"
+                  colorScheme="purple"
+                  onPress={() => navigate("SignUp")}
+                >
+                  Sign Up
+                </Button>
+              </HStack>
             </VStack>
           </Box>
         </Center>
