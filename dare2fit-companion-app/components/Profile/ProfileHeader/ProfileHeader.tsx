@@ -59,7 +59,7 @@ const ProfileHeader: FC = (): ReactElement => {
       <Heading size="md">{`${userData!.firstName} ${
         userData!.lastName
       }`}</Heading>
-      <HStack>
+      <HStack space={2}>
         <Text>@{userData!.handle}</Text>
         <VStack>
           {amAdmin && (

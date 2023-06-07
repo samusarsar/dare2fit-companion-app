@@ -4,15 +4,18 @@ import {
   Button,
   Center,
   FormControl,
+  HStack,
   Heading,
   Icon,
   Image,
   Input,
+  KeyboardAvoidingView,
+  ScrollView,
   VStack,
   useColorModeValue,
 } from "native-base";
 import { useContext, useRef, useState } from "react";
-import { Pressable } from "react-native";
+import { Platform, Pressable } from "react-native";
 
 import ColorModeSwitch from "../../components/Profile/ColorModeSwitch/ColorModeSwitch";
 import { AppContext } from "../../context/AppContext/AppContext";
@@ -78,92 +81,104 @@ const LogIn = () => {
   };
 
   return (
-    <Center
-      w="100%"
-      h="100%"
-      alignContent="center"
-      bg={background}
-      position="relative"
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      h={{
+        base: "400px",
+        lg: "auto",
+      }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <ColorModeSwitch />
-      <Center w="100%">
-        <Image
-          source={{
-            uri: "https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-05-circle.png?alt=media&token=c266cfd5-d1be-4e93-91f2-ef7a7f5c9fba&_gl=1*yya3sk*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjEyODc2MS44Ni4xLjE2ODYxMjg3NzEuMC4wLjA.",
-          }}
-          alt="logo"
-          size="md"
-        />
-      </Center>
-      <Box safeArea p="2" w="90%" maxW="290">
-        <Heading size="lg" fontWeight="600" color="brand.purple">
-          Welcome to dare2fit!
-        </Heading>
-        <Heading
-          mt="1"
-          _dark={{
-            color: "warmGray.200",
-          }}
-          color="coolGray.600"
-          fontWeight="medium"
-          size="xs"
-        >
-          Sign in to continue!
-        </Heading>
-        <VStack space={3} mt="5">
-          <FormControl isInvalid={!!form.emailError}>
-            <FormControl.Label>Email</FormControl.Label>
-            <Input
-              onChangeText={(e) =>
-                setForm({
-                  ...form,
-                  email: e,
-                })
-              }
-            />
-            <FormControl.ErrorMessage>
-              {form.emailError}
-            </FormControl.ErrorMessage>
-          </FormControl>
-          <FormControl isInvalid={!!form.passwordError}>
-            <FormControl.Label>Password</FormControl.Label>
-            <Input
-              type={show ? "text" : "password"}
-              InputRightElement={
-                <Pressable onPress={() => setShow(!show)}>
-                  <Icon
-                    as={
-                      <MaterialIcons
-                        name={show ? "visibility" : "visibility-off"}
-                      />
-                    }
-                    size={5}
-                    mr="2"
-                    color="muted.400"
-                  />
-                </Pressable>
-              }
-              placeholder="Password"
-              onChangeText={(p) =>
-                setForm({
-                  ...form,
-                  password: p,
-                })
-              }
-            />
-            <FormControl.ErrorMessage>
-              {form.passwordError}
-            </FormControl.ErrorMessage>
-          </FormControl>
-          <Button
-            mt="2"
-            colorScheme="purple"
-            isLoading={loading}
-            onPress={handleSubmit}
+      <ScrollView contentContainerStyle={{ flex: 1 }} bg={background}>
+        <Center w="100%" h="100%" alignContent="center" position="relative">
+          <HStack
+            position="absolute"
+            top={0}
+            justifyContent="flex-end"
+            w="100%"
+            py={4}
+            px={2}
           >
-            Log in
-          </Button>
-          {/* <HStack mt="6" justifyContent="center">
+            <ColorModeSwitch />
+          </HStack>
+          <Center w="100%">
+            <Image
+              source={{
+                uri: "https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-05-circle.png?alt=media&token=c266cfd5-d1be-4e93-91f2-ef7a7f5c9fba&_gl=1*yya3sk*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjEyODc2MS44Ni4xLjE2ODYxMjg3NzEuMC4wLjA.",
+              }}
+              alt="logo"
+              size="md"
+            />
+          </Center>
+          <Box safeArea p="2" w="90%" maxW="290">
+            <Heading size="lg" fontWeight="600" color="brand.purple">
+              Welcome to dare2fit!
+            </Heading>
+            <Heading
+              mt="1"
+              _dark={{
+                color: "warmGray.200",
+              }}
+              color="coolGray.600"
+              fontWeight="medium"
+              size="xs"
+            >
+              Sign in to continue!
+            </Heading>
+            <VStack space={3} mt="5">
+              <FormControl isInvalid={!!form.emailError}>
+                <FormControl.Label>Email</FormControl.Label>
+                <Input
+                  onChangeText={(e) =>
+                    setForm({
+                      ...form,
+                      email: e,
+                    })
+                  }
+                />
+                <FormControl.ErrorMessage>
+                  {form.emailError}
+                </FormControl.ErrorMessage>
+              </FormControl>
+              <FormControl isInvalid={!!form.passwordError}>
+                <FormControl.Label>Password</FormControl.Label>
+                <Input
+                  type={show ? "text" : "password"}
+                  InputRightElement={
+                    <Pressable onPress={() => setShow(!show)}>
+                      <Icon
+                        as={
+                          <MaterialIcons
+                            name={show ? "visibility" : "visibility-off"}
+                          />
+                        }
+                        size={5}
+                        mr="2"
+                        color="muted.400"
+                      />
+                    </Pressable>
+                  }
+                  placeholder="Password"
+                  onChangeText={(p) =>
+                    setForm({
+                      ...form,
+                      password: p,
+                    })
+                  }
+                />
+                <FormControl.ErrorMessage>
+                  {form.passwordError}
+                </FormControl.ErrorMessage>
+              </FormControl>
+              <Button
+                mt="2"
+                colorScheme="purple"
+                isLoading={loading}
+                onPress={handleSubmit}
+              >
+                Log in
+              </Button>
+              {/* <HStack mt="6" justifyContent="center">
             <Text
               fontSize="sm"
               color="coolGray.600"
@@ -184,9 +199,11 @@ const LogIn = () => {
               Sign Up
             </Link>
           </HStack> */}
-        </VStack>
-      </Box>
-    </Center>
+            </VStack>
+          </Box>
+        </Center>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
