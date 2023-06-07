@@ -123,7 +123,7 @@ const LogIn = () => {
               fontWeight="medium"
               size="xs"
             >
-              Sign in to continue!
+              Log in to continue!
             </Heading>
             <VStack space={3} mt="5">
               <FormControl isInvalid={!!form.emailError}>

@@ -2,13 +2,13 @@ import { equalTo, onValue, orderByChild, query, ref } from "firebase/database";
 import { NativeBaseProvider, extendTheme } from "native-base";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { IAppContextValue, IUserData } from "./common/types";
 import { auth, db } from "./config/firebase-config";
 import { AppContext } from "./context/AppContext/AppContext";
-import LogIn from "./tabs/LogIn/LogIn";
 import TabNavigation from "./navigation/TabNavigation/TabNavigation";
-import { SafeAreaView } from "react-native-safe-area-context";
+import LogIn from "./tabs/LogIn/LogIn";
 
 export default function App() {
   const [user, loading] = useAuthState(auth);
@@ -47,7 +47,6 @@ export default function App() {
       <NativeBaseProvider theme={theme}>
         <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
           <SafeAreaView style={{ flex: 1 }}>
-
             {!user ? <LogIn /> : <TabNavigation />}
           </SafeAreaView>
         </AppContext.Provider>
