@@ -6,9 +6,9 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { IAppContextValue, IUserData } from "./common/types";
 import { auth, db } from "./config/firebase-config";
 import { AppContext } from "./context/AppContext/AppContext";
-import Activity from "./tabs/Activity/Activity";
 import LogIn from "./tabs/LogIn/LogIn";
 import TabNavigation from "./tabs/TabNavigation";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
   const [user, loading] = useAuthState(auth);
@@ -46,7 +46,10 @@ export default function App() {
     return (
       <NativeBaseProvider theme={theme}>
         <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
-          {!user ? <LogIn /> : <TabNavigation />}
+          <SafeAreaView style={{ flex: 1 }}>
+
+            {!user ? <LogIn /> : <TabNavigation />}
+          </SafeAreaView>
         </AppContext.Provider>
       </NativeBaseProvider>
     );
