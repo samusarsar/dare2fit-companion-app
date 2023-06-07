@@ -1,4 +1,4 @@
-import { FlatList, VStack, useColorModeValue } from "native-base";
+import { VStack, useColorModeValue } from "native-base";
 import { KeyboardAwareFlatList } from "react-native-keyboard-aware-scroll-view";
 
 import { COLOR_BRAND_DARK, COLOR_BRAND_LIGHT } from "../../common/constants";

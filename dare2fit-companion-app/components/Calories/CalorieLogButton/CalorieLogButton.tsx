@@ -17,8 +17,9 @@ import SingleFood from "../SingleFood/SingleFood";
 const CalorieLogButton: FC = () => {
   const [foodName, setFoodName] = useState("");
   const [showLogger, setShowLogger] = useState(false);
-  // eslint-disable-next-line prettier/prettier
-  const [suggestedFoods, setSuggestedFoods] = useState<IFood[] | [] | null>(null);
+  const [suggestedFoods, setSuggestedFoods] = useState<IFood[] | [] | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSearch = () => {

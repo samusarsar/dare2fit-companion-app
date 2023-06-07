@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import {
-  Box,
   Text,
   HStack,
   VStack,
@@ -18,7 +17,7 @@ import { logoutUser } from "../../../services/auth.services";
 import { changeUserRole } from "../../../services/user.services";
 
 const ProfileHeader: FC = (): ReactElement => {
-  const { userData } = useContext(AppContext);
+  const { userData, setContext } = useContext(AppContext);
 
   const [loadingBtn, setLoadingBtn] = useState(false);
 
@@ -43,7 +42,14 @@ const ProfileHeader: FC = (): ReactElement => {
 
   const handleLogOut = () => {
     setLoadingBtn(true);
-    logoutUser().then(() => setLoadingBtn(false));
+    logoutUser()
+      .then(() =>
+        setContext!({
+          user: null,
+          userData: null,
+        })
+      )
+      .then(() => setLoadingBtn(false));
   };
 
   return (

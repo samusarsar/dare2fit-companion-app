@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { Box, VStack, Text, Icon, HStack, Divider, Flex } from "native-base";
+import { Box, VStack, Text, Icon, HStack, Divider } from "native-base";
 import { FC, ReactElement, useContext } from "react";
 
 import { AppContext } from "../../../../context/AppContext/AppContext";
