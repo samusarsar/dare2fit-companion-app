@@ -1,6 +1,6 @@
 import { onValue, ref } from "firebase/database";
 import moment from "moment";
-import { Box, HStack, Text, VStack, useColorModeValue } from "native-base";
+import { Box, Text, VStack, useColorModeValue } from "native-base";
 import { FC, ReactElement, useContext, useEffect, useState } from "react";
 
 import { ITodayLog } from "../../../common/types";

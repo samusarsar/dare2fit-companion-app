@@ -218,8 +218,6 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
             aria-label="remove activity"
             onPress={handleHide}
           />
-          {/* <Button w="20%" colorScheme="gray" onPress={handleHide}>
-          </Button> */}
         </Button.Group>
       )}
     </Box>

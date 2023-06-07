@@ -1,14 +1,14 @@
+import { NavigationContainer } from "@react-navigation/native";
 import { equalTo, onValue, orderByChild, query, ref } from "firebase/database";
 import { NativeBaseProvider, extendTheme } from "native-base";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { IAppContextValue, IUserData } from "./common/types";
 import { auth, db } from "./config/firebase-config";
 import { AppContext } from "./context/AppContext/AppContext";
-import LogIn from "./tabs/LogIn/LogIn";
 import TabNavigation from "./navigation/TabNavigation/TabNavigation";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {
   const [user, loading] = useAuthState(auth);
@@ -28,27 +28,35 @@ export default function App() {
     if (!user) {
       return () => {};
     }
+
     return onValue(
       query(ref(db, `users`), orderByChild("uid"), equalTo(user.uid)),
       (snapshot) => {
         if (snapshot.exists()) {
+          if (appState.userData) return;
           const userData = Object.values(snapshot.val())[0] as IUserData;
           setAppState({
             ...appState,
             userData,
           });
+        } else {
+          setAppState({
+            ...appState,
+            userData: null,
+          });
         }
       }
     );
-  }, [user]);
+  }, [user, appState]);
 
   if ((!loading && !user) || (!loading && user && appState.userData)) {
     return (
       <NativeBaseProvider theme={theme}>
         <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
           <SafeAreaView style={{ flex: 1 }}>
-
-            {!user ? <LogIn /> : <TabNavigation />}
+            <NavigationContainer>
+              <TabNavigation />
+            </NavigationContainer>
           </SafeAreaView>
         </AppContext.Provider>
       </NativeBaseProvider>
