@@ -48,14 +48,20 @@ const ProfileHeader: FC = (): ReactElement => {
 
   return (
     <VStack w="100%" space={2} alignItems="center">
-      <Avatar
-        source={{ uri: `${userData!.avatarURL}` }}
-        boxSize="120px"
-        borderColor={contrastColor}
-        borderWidth={2}
-      >
-        {userData!.handle[0]}
-      </Avatar>
+      {userData!.avatarURL ? (
+        <Avatar
+          source={{ uri: `${userData!.avatarURL}` }}
+          boxSize="120px"
+          borderColor={contrastColor}
+          borderWidth={2}
+        >
+          {userData!.handle[0]}
+        </Avatar>
+      ) : (
+        <Avatar boxSize="120px" borderColor={contrastColor} borderWidth={2}>
+          {userData!.handle[0]}
+        </Avatar>
+      )}
       <Heading size="md">{`${userData!.firstName} ${
         userData!.lastName
       }`}</Heading>
