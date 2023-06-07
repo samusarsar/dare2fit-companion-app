@@ -1,4 +1,4 @@
-import { Button, Divider, Input, ScrollView, VStack } from "native-base";
+import { Box, Button, Divider, Input, ScrollView, VStack } from "native-base";
 import { FC, useState } from "react";
 
 import { IFood } from "../../../common/types";
@@ -10,6 +10,8 @@ const CalorieLogButton: FC = () => {
   const [showLogger, setShowLogger] = useState(false);
   const [suggestedFoods, setSuggestedFoods] = useState<IFood[] | []>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+
 
   const handleSearch = () => {
     setIsLoading(true);
@@ -25,7 +27,7 @@ const CalorieLogButton: FC = () => {
   };
 
   return (
-    <ScrollView>
+    <Box>
       {showLogger ? (
         <VStack py={3} w="100%" space={2}>
           <Input
@@ -58,7 +60,7 @@ const CalorieLogButton: FC = () => {
           Log Food
         </Button>
       )}
-    </ScrollView>
+    </Box>
   );
 };
 
