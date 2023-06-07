@@ -5,6 +5,7 @@ import { Icon, useColorModeValue } from "native-base";
 
 import Activity from "../../tabs/Activity/Activity";
 import StackNavigation from "../StackNavigation/StackNavigation";
+import Calories from "../../tabs/Calories/Calories";
 
 const Tab = createBottomTabNavigator();
 
@@ -50,6 +51,7 @@ const TabNavigation = () => {
           options={{ headerShown: false }}
         />
         <Tab.Screen name="Activity" component={Activity} />
+        <Tab.Screen name="Calories" component={Calories} />
       </Tab.Navigator>
     </NavigationContainer>
   );
