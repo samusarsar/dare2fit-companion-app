@@ -22,7 +22,7 @@ const SingleFood: FC<{ food: IFood }> = ({ food }) => {
   const { userData } = useContext(AppContext);
   const [grams, setGrams] = useState(0);
 
-  const badgeColor = useColorModeValue("gray.200", "gray.500");
+  const unitBackgroundColor = useColorModeValue("gray.300", "gray.500");
 
   const calories = Math.floor((food.calories / food.serving_size_g) * grams);
 
@@ -42,46 +42,50 @@ const SingleFood: FC<{ food: IFood }> = ({ food }) => {
 
       <InputGroup mb={1}>
         <Input
+          keyboardType="numeric"
           w="90%"
-          value={String(grams)}
+          px={2}
           onChangeText={(value) => setGrams(+value || 0)}
           placeholder="gr"
         />
-        <InputRightAddon children={"gr"} />
+        <InputRightAddon
+          backgroundColor={unitBackgroundColor}
+          children={"gr"}
+        />
       </InputGroup>
 
       <HStack>
         <Text>serving size:</Text>
         <Spacer />
-        <Badge borderRadius="lg" bg={badgeColor}>
+        <Badge borderRadius="lg" bg={unitBackgroundColor}>
           <Text>{Math.floor(food.serving_size_g)} gr</Text>
         </Badge>
       </HStack>
       <HStack>
         <Text>calories per serving: </Text>
         <Spacer />
-        <Badge borderRadius="lg" bg={badgeColor}>
+        <Badge borderRadius="lg" bg={unitBackgroundColor}>
           <Text>{Math.floor(food.calories)} kcal</Text>
         </Badge>
       </HStack>
       <HStack>
         <Text>carbohydrates: </Text>
         <Spacer />
-        <Badge borderRadius="lg" bg={badgeColor}>
+        <Badge borderRadius="lg" bg={unitBackgroundColor}>
           <Text>{Math.floor(food.carbohydrates_total_g)} gr</Text>
         </Badge>
       </HStack>
       <HStack>
         <Text>protein: </Text>
         <Spacer />
-        <Badge borderRadius="lg" bg={badgeColor}>
+        <Badge borderRadius="lg" bg={unitBackgroundColor}>
           <Text>{Math.floor(food.protein_g)} gr</Text>
         </Badge>
       </HStack>
       <HStack>
         <Text>fat: </Text>
         <Spacer />
-        <Badge borderRadius="lg" bg={badgeColor}>
+        <Badge borderRadius="lg" bg={unitBackgroundColor}>
           <Text>{Math.floor(food.fat_total_g)} gr</Text>
         </Badge>
       </HStack>
