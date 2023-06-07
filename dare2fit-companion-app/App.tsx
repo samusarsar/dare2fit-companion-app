@@ -7,7 +7,7 @@ import { IAppContextValue, IUserData } from "./common/types";
 import { auth, db } from "./config/firebase-config";
 import { AppContext } from "./context/AppContext/AppContext";
 import LogIn from "./tabs/LogIn/LogIn";
-import TabNavigation from "./tabs/TabNavigation";
+import TabNavigation from "./navigation/TabNavigation/TabNavigation";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function App() {

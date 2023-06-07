@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer } from "@react-navigation/native";
 import { Icon, useColorModeValue } from "native-base";
 
-import Activity from "./Activity/Activity";
-import Profile from "./Profile/Profile";
+import Activity from "../../tabs/Activity/Activity";
+import StackNavigation from "../StackNavigation/StackNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,7 +22,7 @@ const TabNavigation = () => {
             const currColor = focused ? "brand.purple" : contrastColor;
             let iconName;
 
-            if (route.name === "Profile") {
+            if (route.name === "ProfileScreen") {
               iconName = focused ? "user-circle" : "user-circle-o";
             } else if (route.name === "Activity") {
               iconName = "heartbeat";
@@ -44,7 +44,11 @@ const TabNavigation = () => {
           headerTintColor: contrastColor,
         })}
       >
-        <Tab.Screen name="Profile" component={Profile} />
+        <Tab.Screen
+          name="ProfileScreen"
+          component={StackNavigation}
+          options={{ headerShown: false }}
+        />
         <Tab.Screen name="Activity" component={Activity} />
       </Tab.Navigator>
     </NavigationContainer>

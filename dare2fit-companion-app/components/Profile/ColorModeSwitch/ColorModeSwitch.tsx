@@ -12,9 +12,6 @@ const ColorModeSwitch: FC = () => {
       variant="solid"
       onPress={toggleColorMode}
       colorScheme="gray"
-      position="absolute"
-      top={5}
-      right={5}
       leftIcon={
         colorMode === "light" ? (
           <Icon as={FontAwesome} name="moon-o" />
