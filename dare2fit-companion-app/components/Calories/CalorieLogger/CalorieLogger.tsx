@@ -8,12 +8,12 @@ import CalorieLogButton from "../CalorieLogButton/CalorieLogButton";
 const CalorieLogger: FC = () => {
   const { userData } = useContext(AppContext);
 
-  const background = useColorModeValue("brand.white", "brand.grey");
+  const background = useColorModeValue("brand.light", "brand.dark");
 
   const today = moment().format("dddd, MMM Do");
 
   return (
-    <ScrollView w="100%">
+    <ScrollView w="100%" bg={background}>
       <VStack w="100%" bg="brand.blue" p={6} alignContent="start" rounded="lg">
         <Box bg="brand.red" p={3} rounded="full" mb={4}>
           <Text fontWeight="bold">{today}</Text>
