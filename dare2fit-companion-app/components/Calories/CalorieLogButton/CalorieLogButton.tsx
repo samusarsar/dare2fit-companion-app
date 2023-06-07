@@ -1,5 +1,13 @@
-import { Box, Button, Divider, IconButton, Input, ScrollView, VStack } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Input,
+  Text,
+  VStack,
+} from "native-base";
 import { FC, useState } from "react";
 
 import { IFood } from "../../../common/types";
@@ -9,10 +17,9 @@ import SingleFood from "../SingleFood/SingleFood";
 const CalorieLogButton: FC = () => {
   const [foodName, setFoodName] = useState("");
   const [showLogger, setShowLogger] = useState(false);
-  const [suggestedFoods, setSuggestedFoods] = useState<IFood[] | []>([]);
+  // eslint-disable-next-line prettier/prettier
+  const [suggestedFoods, setSuggestedFoods] = useState<IFood[] | [] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-
 
   const handleSearch = () => {
     setIsLoading(true);
@@ -24,7 +31,7 @@ const CalorieLogButton: FC = () => {
   const handleHide = () => {
     setShowLogger(false);
     setFoodName("");
-    setSuggestedFoods([]);
+    setSuggestedFoods(null);
   };
 
   return (
@@ -45,9 +52,15 @@ const CalorieLogButton: FC = () => {
             Search Food
           </Button>
           <Divider />
-          {suggestedFoods.map((f) => (
-            <SingleFood key={f.name} food={f} />
-          ))}
+
+          {suggestedFoods &&
+            suggestedFoods.length > 0 &&
+            suggestedFoods.map((f) => <SingleFood key={f.name} food={f} />)}
+
+          {suggestedFoods && suggestedFoods.length === 0 && (
+            <Text>No foods match the search criteria</Text>
+          )}
+
           <Button.Group isAttached>
             <Button colorScheme="yellow" w="80%" onPress={handleHide}>
               Hide
