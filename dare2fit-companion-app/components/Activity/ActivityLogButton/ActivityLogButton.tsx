@@ -1,8 +1,16 @@
 // eslint-disable-next-line max-len
-import { Box, Button, Input, Select, Text, VStack } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
+import {
+  Box,
+  Button,
+  IconButton,
+  Input,
+  Select,
+  Text,
+  VStack,
+  useColorModeValue,
+} from "native-base";
 import { FC, ReactElement, useContext, useEffect, useState } from "react";
-import { IoIosArrowUp } from "react-icons/io";
-import { MdArrowDropDown } from "react-icons/md";
 
 import { Units, UserRoles } from "../../../common/enums";
 import { getEnumValue } from "../../../common/helper";
@@ -23,6 +31,8 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
   const [trainingWith, setTrainingWith] = useState<string>("");
 
   const [showLogger, setShowLogger] = useState(false);
+
+  const unitBackgroundColor = useColorModeValue("gray.300", "gray.500");
 
   const units = activityType ? getEnumValue(Units, activityType) : null;
 
@@ -147,7 +157,7 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
                     <VStack
                       h="100%"
                       px={2}
-                      backgroundColor="gray.200"
+                      backgroundColor={unitBackgroundColor}
                       justifyContent="center"
                     >
                       <Text>{units}</Text>
@@ -185,16 +195,31 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
       ) : (
         <Button.Group isAttached>
           <Button
-            isDisabled={amBlocked || !(activityType && loggedValue)}
+            isDisabled={
+              amBlocked ||
+              !(
+                activityType &&
+                loggedValue &&
+                (typeof loggedValue === "number" ? loggedValue > 0 : true)
+              )
+            }
             colorScheme="yellow"
             w="80%"
             onPress={handleLog}
           >
             Log Activity
           </Button>
-          <Button w="20%" colorScheme="gray" onPress={handleHide}>
-            Hide
-          </Button>
+          <IconButton
+            variant="solid"
+            size="sm"
+            w="20%"
+            _icon={{ as: Ionicons, name: "caret-up-outline" }}
+            colorScheme="gray"
+            aria-label="remove activity"
+            onPress={handleHide}
+          />
+          {/* <Button w="20%" colorScheme="gray" onPress={handleHide}>
+          </Button> */}
         </Button.Group>
       )}
     </Box>

@@ -4,17 +4,17 @@ import {
   Button,
   Center,
   FormControl,
-  HStack,
   Heading,
   Icon,
+  Image,
   Input,
-  Link,
-  Text,
   VStack,
+  useColorModeValue,
 } from "native-base";
 import { useContext, useRef, useState } from "react";
 import { Pressable } from "react-native";
 
+import ColorModeSwitch from "../../components/Profile/ColorModeSwitch/ColorModeSwitch";
 import { AppContext } from "../../context/AppContext/AppContext";
 import { loginUser } from "../../services/auth.services";
 
@@ -29,6 +29,8 @@ const LogIn = () => {
   });
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
+
+  const background = useColorModeValue("brand.light", "brand.dark");
 
   const handleSubmit = () => {
     if (form.email.split("@").length !== 2) {
@@ -76,16 +78,25 @@ const LogIn = () => {
   };
 
   return (
-    <Center w="100%" h="100%" alignContent="center">
-      <Box safeArea p="2" py="8" w="90%" maxW="290">
-        <Heading
-          size="lg"
-          fontWeight="600"
-          color="brand.purple"
-          _dark={{
-            color: "warmGray.50",
+    <Center
+      w="100%"
+      h="100%"
+      alignContent="center"
+      bg={background}
+      position="relative"
+    >
+      <ColorModeSwitch />
+      <Center w="100%">
+        <Image
+          source={{
+            uri: "https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-05-circle.png?alt=media&token=c266cfd5-d1be-4e93-91f2-ef7a7f5c9fba&_gl=1*yya3sk*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjEyODc2MS44Ni4xLjE2ODYxMjg3NzEuMC4wLjA.",
           }}
-        >
+          alt="logo"
+          size="md"
+        />
+      </Center>
+      <Box safeArea p="2" w="90%" maxW="290">
+        <Heading size="lg" fontWeight="600" color="brand.purple">
           Welcome to dare2fit!
         </Heading>
         <Heading
