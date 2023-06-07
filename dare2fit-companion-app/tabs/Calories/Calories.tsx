@@ -1,9 +1,11 @@
-import { Center, Text, VStack } from "native-base";
+import { Center } from "native-base";
+
+import CalorieLogger from "../../components/Calories/CalorieLogger/CalorieLogger";
 
 const Calories = () => {
   return (
     <Center w="100%" h="100%" p={2}>
-      <Text>Calories tab</Text>
+      <CalorieLogger />
     </Center>
   );
 };
