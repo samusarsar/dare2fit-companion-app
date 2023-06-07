@@ -1,4 +1,5 @@
-import { Box, Button, Divider, Input, ScrollView, VStack } from "native-base";
+import { Box, Button, Divider, IconButton, Input, ScrollView, VStack } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
 import { FC, useState } from "react";
 
 import { IFood } from "../../../common/types";
@@ -47,9 +48,20 @@ const CalorieLogButton: FC = () => {
           {suggestedFoods.map((f) => (
             <SingleFood key={f.name} food={f} />
           ))}
-          <Button w="100%" colorScheme="yellow" onPress={handleHide}>
-            Hide
-          </Button>
+          <Button.Group isAttached>
+            <Button colorScheme="yellow" w="80%" onPress={handleHide}>
+              Hide
+            </Button>
+            <IconButton
+              variant="solid"
+              size="sm"
+              w="20%"
+              _icon={{ as: Ionicons, name: "caret-up-outline" }}
+              colorScheme="gray"
+              aria-label="remove activity"
+              onPress={handleHide}
+            />
+          </Button.Group>
         </VStack>
       ) : (
         <Button
