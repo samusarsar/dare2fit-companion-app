@@ -44,7 +44,7 @@ const ActivityLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({
               Workout:
             </Badge>
             <HStack w="100%" justifyContent="center" pt={2}>
-              <Text fontSize="md">{todayLog.workout?.name}</Text>
+              <Text fontSize="md" w='40%'>{todayLog.workout?.name}</Text>
               <IconButton
                 size="xs"
                 variant="solid"
@@ -67,7 +67,7 @@ const ActivityLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({
               justifyContent="space-evenly"
               pt={2}
             >
-              <Text fontSize="md">{todayLog.walking} steps</Text>
+              <Text fontSize="md" w='40%'>{todayLog.walking} steps</Text>
               <IconButton
                 size="xs"
                 variant="solid"
@@ -90,7 +90,7 @@ const ActivityLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({
               justifyContent="space-evenly"
               pt={2}
             >
-              <Text fontSize="md">{todayLog.running} km</Text>
+              <Text fontSize="md" w='40%'>{todayLog.running} km</Text>
               <IconButton
                 size="xs"
                 variant="solid"
@@ -113,7 +113,7 @@ const ActivityLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({
               justifyContent="space-evenly"
               pt={2}
             >
-              <Text fontSize="md">{todayLog.cycling} km</Text>
+              <Text fontSize="md" w='40%'>{todayLog.cycling} km</Text>
               <IconButton
                 size="xs"
                 variant="solid"
@@ -136,7 +136,7 @@ const ActivityLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({
               justifyContent="space-evenly"
               pt={2}
             >
-              <Text fontSize="md">{todayLog.swimming} m</Text>
+              <Text fontSize="md" w='40%'>{todayLog.swimming} m</Text>
               <IconButton
                 size="xs"
                 variant="solid"
