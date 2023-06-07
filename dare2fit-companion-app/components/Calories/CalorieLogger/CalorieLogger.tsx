@@ -1,15 +1,36 @@
+import { onValue, ref } from "firebase/database";
 import moment from "moment";
 import { Box, ScrollView, Text, VStack, useColorModeValue } from "native-base";
-import { FC, useContext } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 
+import { db } from "../../../config/firebase-config";
 import { AppContext } from "../../../context/AppContext/AppContext";
 import CalorieLogButton from "../CalorieLogButton/CalorieLogButton";
+import CalorieLogDisplay from "../CalorieLogDisplay/CalorieLogDisplay";
 
 const CalorieLogger: FC = () => {
   const { userData } = useContext(AppContext);
 
+  const [calorieLog, setCalorieLog] = useState({});
+
   const background = useColorModeValue("brand.light", "brand.dark");
   const innerBoxBackground = useColorModeValue("brand.white", "brand.grey");
+
+  useEffect(() => {
+    const todayDate = moment().format("YYYY-MM-DD");
+
+    return onValue(
+      ref(db, `logs/${userData!.handle}/${todayDate}/calories`),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          setCalorieLog(data);
+        } else {
+          setCalorieLog({});
+        }
+      }
+    );
+  }, []);
 
   const today = moment().format("dddd, MMM Do");
 
@@ -27,6 +48,7 @@ const CalorieLogger: FC = () => {
             shadow="lg"
             p={4}
           >
+            <CalorieLogDisplay calorieLog={calorieLog} />
             <CalorieLogButton />
           </VStack>
         </VStack>
