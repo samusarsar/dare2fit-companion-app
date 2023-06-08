@@ -182,7 +182,11 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
           )}
         </VStack>
       )}
-      {amBlocked && <Text>You are blocked and can&apos;t log activities.</Text>}
+      {amBlocked && (
+        <Text textAlign="center" color="brand.red">
+          You are blocked and can&apos;t log activities.
+        </Text>
+      )}
       {!showLogger ? (
         <Button
           w="100%"

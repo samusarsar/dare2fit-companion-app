@@ -8,19 +8,25 @@ import {
   Text,
   VStack,
 } from "native-base";
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 
+import { UserRoles } from "../../../common/enums";
 import { IFood } from "../../../common/types";
+import { AppContext } from "../../../context/AppContext/AppContext";
 import { findFood } from "../../../services/food.services";
 import SingleFood from "../SingleFood/SingleFood";
 
 const CalorieLogButton: FC = () => {
+  const { userData } = useContext(AppContext);
+
   const [foodName, setFoodName] = useState("");
   const [showLogger, setShowLogger] = useState(false);
   const [suggestedFoods, setSuggestedFoods] = useState<IFood[] | [] | null>(
     null
   );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const amBlocked = userData!.role === UserRoles.Blocked;
 
   const handleSearch = () => {
     setIsLoading(true);
@@ -78,13 +84,21 @@ const CalorieLogButton: FC = () => {
           </Button.Group>
         </VStack>
       ) : (
-        <Button
-          w="100%"
-          colorScheme="yellow"
-          onPress={() => setShowLogger(true)}
-        >
-          Log Food
-        </Button>
+        <>
+          {amBlocked && (
+            <Text textAlign="center" color="brand.red">
+              You are blocked and can&apos;t log food.
+            </Text>
+          )}
+          <Button
+            w="100%"
+            colorScheme="yellow"
+            onPress={() => setShowLogger(true)}
+            isDisabled={amBlocked}
+          >
+            Log Food
+          </Button>
+        </>
       )}
     </Box>
   );
