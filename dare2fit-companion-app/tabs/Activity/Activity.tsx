@@ -9,7 +9,6 @@ const Activity = () => {
 
   return (
     <KeyboardAwareFlatList
-      contentContainerStyle={{ flex: 1 }}
       style={{ backgroundColor: background }}
       data={[0]}
       renderItem={() => (

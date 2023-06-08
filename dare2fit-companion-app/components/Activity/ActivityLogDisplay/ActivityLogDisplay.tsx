@@ -43,7 +43,12 @@ const ActivityLogDisplay: FC<{ todayLog: ITodayLog | null }> = ({
             <Badge colorScheme="pink" p={2} rounded="full">
               Workout:
             </Badge>
-            <HStack w="100%" justifyContent="center" pt={2}>
+            <HStack
+              w="100%"
+              alignItems="center"
+              justifyContent="space-evenly"
+              pt={2}
+            >
               <Text fontSize="md" w="40%">
                 {todayLog.workout?.name}
               </Text>

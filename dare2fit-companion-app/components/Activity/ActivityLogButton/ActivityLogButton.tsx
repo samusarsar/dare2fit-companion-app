@@ -126,7 +126,7 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
           {activityType && units === "workouts" ? (
             <Select
               placeholder="Select workout"
-              selectedValue={activityType}
+              selectedValue={(loggedValue as string | null) || ""}
               onValueChange={(e) => setLoggedValue(e)}
             >
               <Select.Item value="my" label="My Workouts" disabled />

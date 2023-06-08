@@ -35,25 +35,17 @@ const CalorieLogger: FC = () => {
   const today = moment().format("dddd, MMM Do");
 
   return (
-    <ScrollView w="100%" bg={background}>
-      <VStack w="100%" bg="brand.blue" p={6} alignContent="start" rounded="lg">
-        <Box bg="brand.red" p={3} rounded="full" mb={4}>
-          <Text fontWeight="bold">{today}</Text>
-        </Box>
-        <VStack w="100%">
-          <VStack
-            w="100%"
-            bg={innerBoxBackground}
-            rounded="lg"
-            shadow="lg"
-            p={4}
-          >
-            <CalorieLogDisplay calorieLog={calorieLog} />
-            <CalorieLogButton />
-          </VStack>
+    <VStack w="100%" bg="brand.blue" p={6} alignContent="start" rounded="lg">
+      <Box bg="brand.red" p={3} rounded="full" mb={4}>
+        <Text fontWeight="bold">{today}</Text>
+      </Box>
+      <VStack w="100%">
+        <VStack w="100%" bg={innerBoxBackground} rounded="lg" shadow="lg" p={4}>
+          <CalorieLogDisplay calorieLog={calorieLog} />
+          <CalorieLogButton />
         </VStack>
       </VStack>
-    </ScrollView>
+    </VStack>
   );
 };
 
