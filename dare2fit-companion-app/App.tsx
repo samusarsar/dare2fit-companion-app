@@ -1,6 +1,12 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { equalTo, onValue, orderByChild, query, ref } from "firebase/database";
-import { NativeBaseProvider, extendTheme } from "native-base";
+import {
+  NativeBaseProvider,
+  extendTheme,
+  StorageManager,
+  ColorMode,
+} from "native-base";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -51,7 +57,7 @@ export default function App() {
 
   if ((!loading && !user) || (!loading && user && appState.userData)) {
     return (
-      <NativeBaseProvider theme={theme}>
+      <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
         <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
           <SafeAreaView style={{ flex: 1 }}>
             <NavigationContainer>
@@ -82,3 +88,21 @@ const theme = extendTheme({
     },
   },
 });
+
+const colorModeManager: StorageManager = {
+  get: async () => {
+    try {
+      const val = await AsyncStorage.getItem("@color-mode");
+      return val === "dark" ? "dark" : "light";
+    } catch {
+      return "light";
+    }
+  },
+  set: async (value: ColorMode) => {
+    try {
+      await AsyncStorage.setItem("@color-mode", value as string);
+    } catch (e) {
+      console.log(e);
+    }
+  },
+};

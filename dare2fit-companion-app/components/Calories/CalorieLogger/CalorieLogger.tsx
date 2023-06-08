@@ -1,6 +1,6 @@
 import { onValue, ref } from "firebase/database";
 import moment from "moment";
-import { Box, ScrollView, Text, VStack, useColorModeValue } from "native-base";
+import { Box, Text, VStack, useColorModeValue } from "native-base";
 import { FC, useContext, useEffect, useState } from "react";
 
 import { db } from "../../../config/firebase-config";
@@ -13,7 +13,6 @@ const CalorieLogger: FC = () => {
 
   const [calorieLog, setCalorieLog] = useState({});
 
-  const background = useColorModeValue("brand.light", "brand.dark");
   const innerBoxBackground = useColorModeValue("brand.white", "brand.grey");
 
   useEffect(() => {

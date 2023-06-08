@@ -19,7 +19,7 @@ const CalorieLogDisplay: FC<{ calorieLog: { [key: string]: number } }> = ({
     return (
       <VStack alignItems="flex-start" pb={2} px={8}>
         {Object.entries(calorieLog).map((foodEntry, index) => (
-          <Box key={foodEntry[0]} w="100%" px={{ base: 0, md: 4 }} py={4}>
+          <Box key={foodEntry[0]} w="100%" px={{ base: 0, md: 4 }} py={2}>
             <Badge
               colorScheme={badgeColorScheme[index % badgeColorScheme.length]}
               p={2}
