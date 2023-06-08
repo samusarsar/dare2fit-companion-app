@@ -17,6 +17,7 @@ import {
 import { useContext, useState } from "react";
 import { Pressable } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import {
   COLOR_BRAND_DARK,
@@ -122,10 +123,10 @@ const SignUp = () => {
                     form.firstName,
                     form.lastName
                   ).then(() =>
-                    setContext!({
+                    setContext!((prevState) => ({
+                      ...prevState,
                       user: credential.user,
-                      userData: null,
-                    })
+                    }))
                   );
                 })
                 .then(() => {
@@ -173,163 +174,173 @@ const SignUp = () => {
   };
 
   return (
-    <KeyboardAwareScrollView style={{ backgroundColor: background }}>
-      <HStack
-        position="absolute"
-        justifyContent="flex-end"
-        w="100%"
-        py={4}
-        px={2}
-        zIndex={2}
-      >
-        <ColorModeSwitch />
-      </HStack>
-      <Center w="100%" h="100%" alignItems="center" position="relative" py={8}>
-        <Image
-          source={{
-            uri: "https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-05-circle.png?alt=media&token=c266cfd5-d1be-4e93-91f2-ef7a7f5c9fba&_gl=1*yya3sk*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjEyODc2MS44Ni4xLjE2ODYxMjg3NzEuMC4wLjA.",
-          }}
-          alt="logo"
-          size="md"
-        />
-        <Box safeArea p="2" w="90%" maxW="290">
-          <Heading size="lg" fontWeight="600" color="brand.purple">
-            Welcome to dare2fit!
-          </Heading>
-          <Heading
-            mt="1"
-            _dark={{
-              color: "warmGray.200",
-            }}
-            color="coolGray.600"
-            fontWeight="medium"
-            size="xs"
+    <Box bg={background} style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
+        <KeyboardAwareScrollView>
+          <HStack
+            position="absolute"
+            justifyContent="flex-end"
+            w="100%"
+            py={4}
+            px={2}
+            zIndex={2}
           >
-            Sign up to continue!
-          </Heading>
-          <VStack space={3} mt="5">
-            <FormControl isInvalid={!!form.usernameError}>
-              <FormControl.Label>Username</FormControl.Label>
-              <Input
-                onChangeText={(e) =>
-                  setForm({
-                    ...form,
-                    username: e,
-                  })
-                }
-              />
-              <FormControl.ErrorMessage>
-                {form.usernameError}
-              </FormControl.ErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={!!form.emailError}>
-              <FormControl.Label>Email</FormControl.Label>
-              <Input
-                onChangeText={(e) =>
-                  setForm({
-                    ...form,
-                    email: e,
-                  })
-                }
-              />
-              <FormControl.ErrorMessage>
-                {form.emailError}
-              </FormControl.ErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={!!form.passwordError}>
-              <FormControl.Label>Password</FormControl.Label>
-              <Input
-                type={show ? "text" : "password"}
-                InputRightElement={
-                  <Pressable onPress={() => setShow(!show)}>
-                    <Icon
-                      as={
-                        <MaterialIcons
-                          name={show ? "visibility" : "visibility-off"}
-                        />
-                      }
-                      size={5}
-                      mr="2"
-                      color="muted.400"
-                    />
-                  </Pressable>
-                }
-                placeholder="Password"
-                onChangeText={(p) =>
-                  setForm({
-                    ...form,
-                    password: p,
-                  })
-                }
-              />
-              <FormControl.ErrorMessage>
-                {form.passwordError}
-              </FormControl.ErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={!!form.firstNameError}>
-              <FormControl.Label>First Name</FormControl.Label>
-              <Input
-                onChangeText={(e) =>
-                  setForm({
-                    ...form,
-                    firstName: e,
-                  })
-                }
-              />
-              <FormControl.ErrorMessage>
-                {form.firstNameError}
-              </FormControl.ErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={!!form.lastNameError}>
-              <FormControl.Label>Last Name</FormControl.Label>
-              <Input
-                onChangeText={(e) =>
-                  setForm({
-                    ...form,
-                    lastName: e,
-                  })
-                }
-              />
-              <FormControl.ErrorMessage>
-                {form.lastNameError}
-              </FormControl.ErrorMessage>
-            </FormControl>
-            <FormControl isInvalid={!!form.telephoneError}>
-              <FormControl.Label>Telephone</FormControl.Label>
-              <Input
-                onChangeText={(e) =>
-                  setForm({
-                    ...form,
-                    telephone: e,
-                  })
-                }
-              />
-              <FormControl.ErrorMessage>
-                {form.telephoneError}
-              </FormControl.ErrorMessage>
-            </FormControl>
-            <Button
-              mt="2"
-              colorScheme="purple"
-              isLoading={loading}
-              onPress={handleSubmit}
-            >
-              Sign Up
-            </Button>
-            <HStack mt="6" justifyContent="center" alignItems="center">
-              <Text fontSize="sm">Already a member?</Text>
-              <Button
-                variant="link"
-                colorScheme="purple"
-                onPress={() => navigate("LogIn")}
+            <ColorModeSwitch />
+          </HStack>
+          <Center
+            w="100%"
+            h="100%"
+            alignItems="center"
+            position="relative"
+            py={8}
+          >
+            <Image
+              source={{
+                uri: "https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-05-circle.png?alt=media&token=c266cfd5-d1be-4e93-91f2-ef7a7f5c9fba&_gl=1*yya3sk*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjEyODc2MS44Ni4xLjE2ODYxMjg3NzEuMC4wLjA.",
+              }}
+              alt="logo"
+              size="md"
+            />
+            <Box safeArea p="2" w="90%" maxW="290">
+              <Heading size="lg" fontWeight="600" color="brand.purple">
+                Welcome to dare2fit!
+              </Heading>
+              <Heading
+                mt="1"
+                _dark={{
+                  color: "warmGray.200",
+                }}
+                color="coolGray.600"
+                fontWeight="medium"
+                size="xs"
               >
-                Log In
-              </Button>
-            </HStack>
-          </VStack>
-        </Box>
-      </Center>
-    </KeyboardAwareScrollView>
+                Sign up to continue!
+              </Heading>
+              <VStack space={3} mt="5">
+                <FormControl isInvalid={!!form.usernameError}>
+                  <FormControl.Label>Username</FormControl.Label>
+                  <Input
+                    onChangeText={(e) =>
+                      setForm({
+                        ...form,
+                        username: e,
+                      })
+                    }
+                  />
+                  <FormControl.ErrorMessage>
+                    {form.usernameError}
+                  </FormControl.ErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={!!form.emailError}>
+                  <FormControl.Label>Email</FormControl.Label>
+                  <Input
+                    onChangeText={(e) =>
+                      setForm({
+                        ...form,
+                        email: e,
+                      })
+                    }
+                  />
+                  <FormControl.ErrorMessage>
+                    {form.emailError}
+                  </FormControl.ErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={!!form.passwordError}>
+                  <FormControl.Label>Password</FormControl.Label>
+                  <Input
+                    type={show ? "text" : "password"}
+                    InputRightElement={
+                      <Pressable onPress={() => setShow(!show)}>
+                        <Icon
+                          as={
+                            <MaterialIcons
+                              name={show ? "visibility" : "visibility-off"}
+                            />
+                          }
+                          size={5}
+                          mr="2"
+                          color="muted.400"
+                        />
+                      </Pressable>
+                    }
+                    placeholder="Password"
+                    onChangeText={(p) =>
+                      setForm({
+                        ...form,
+                        password: p,
+                      })
+                    }
+                  />
+                  <FormControl.ErrorMessage>
+                    {form.passwordError}
+                  </FormControl.ErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={!!form.firstNameError}>
+                  <FormControl.Label>First Name</FormControl.Label>
+                  <Input
+                    onChangeText={(e) =>
+                      setForm({
+                        ...form,
+                        firstName: e,
+                      })
+                    }
+                  />
+                  <FormControl.ErrorMessage>
+                    {form.firstNameError}
+                  </FormControl.ErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={!!form.lastNameError}>
+                  <FormControl.Label>Last Name</FormControl.Label>
+                  <Input
+                    onChangeText={(e) =>
+                      setForm({
+                        ...form,
+                        lastName: e,
+                      })
+                    }
+                  />
+                  <FormControl.ErrorMessage>
+                    {form.lastNameError}
+                  </FormControl.ErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={!!form.telephoneError}>
+                  <FormControl.Label>Telephone</FormControl.Label>
+                  <Input
+                    onChangeText={(e) =>
+                      setForm({
+                        ...form,
+                        telephone: e,
+                      })
+                    }
+                  />
+                  <FormControl.ErrorMessage>
+                    {form.telephoneError}
+                  </FormControl.ErrorMessage>
+                </FormControl>
+                <Button
+                  mt="2"
+                  colorScheme="purple"
+                  isLoading={loading}
+                  onPress={handleSubmit}
+                >
+                  Sign Up
+                </Button>
+                <HStack mt="6" justifyContent="center" alignItems="center">
+                  <Text fontSize="sm">Already a member?</Text>
+                  <Button
+                    variant="link"
+                    colorScheme="purple"
+                    onPress={() => navigate("LogIn")}
+                  >
+                    Log In
+                  </Button>
+                </HStack>
+              </VStack>
+            </Box>
+          </Center>
+        </KeyboardAwareScrollView>
+      </SafeAreaView>
+    </Box>
   );
 };
 
