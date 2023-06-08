@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/dare2fit-05.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1A202C"
     },
     "assetBundlePatterns": [
       "**/*"
