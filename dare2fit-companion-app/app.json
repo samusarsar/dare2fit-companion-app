@@ -5,10 +5,10 @@
     "description": "This is a companion app to the dare2fit web platform. Use it to log you activity and calorie intake and check your notifications.",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/dare2fit-05-circle.png",
+    "icon": "./src/assets/dare2fit-05-circle.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/dare2fit-05.png",
+      "image": "./src/assets/dare2fit-05.png",
       "resizeMode": "contain",
       "backgroundColor": "#1A202C"
     },
@@ -20,12 +20,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/dare2fit-05-circle.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./src/assets/dare2fit-05-circle.png",
+        "backgroundColor": "#1A202C"
       }
     },
     "web": {
-      "favicon": "./assets/dare2fit-05-circle.png"
+      "favicon": "./src/assets/dare2fit-05-circle.png"
     }
   }
 }
