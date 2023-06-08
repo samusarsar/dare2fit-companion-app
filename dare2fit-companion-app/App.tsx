@@ -9,7 +9,6 @@ import {
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { IAppContextValue, IUserData } from "./common/types";
 import { auth, db } from "./config/firebase-config";
@@ -39,31 +38,23 @@ export default function App() {
       query(ref(db, `users`), orderByChild("uid"), equalTo(user.uid)),
       (snapshot) => {
         if (snapshot.exists()) {
-          if (appState.userData) return;
           const userData = Object.values(snapshot.val())[0] as IUserData;
           setAppState({
             ...appState,
             userData,
           });
-        } else {
-          setAppState({
-            ...appState,
-            userData: null,
-          });
         }
       }
     );
-  }, [user, appState]);
+  }, [user]);
 
-  if ((!loading && !user) || (!loading && user && appState.userData)) {
+  if ((!loading && !user) || (user && appState.userData)) {
     return (
       <NativeBaseProvider theme={theme} colorModeManager={colorModeManager}>
         <AppContext.Provider value={{ ...appState, setContext: setAppState }}>
-          <SafeAreaView style={{ flex: 1 }}>
-            <NavigationContainer>
-              <TabNavigation />
-            </NavigationContainer>
-          </SafeAreaView>
+          <NavigationContainer>
+            <TabNavigation />
+          </NavigationContainer>
         </AppContext.Provider>
       </NativeBaseProvider>
     );
