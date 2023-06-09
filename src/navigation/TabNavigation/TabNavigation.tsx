@@ -31,7 +31,7 @@ const TabNavigation: FC = (): ReactElement => {
     <>
       <StatusBar barStyle={statusTextColor} />
       <Tab.Navigator
-        initialRouteName="Activity"
+        initialRouteName="ProfileScreen"
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, size }) => {
             const currColor = focused ? "brand.purple" : contrastColor;
