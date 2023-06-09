@@ -16,16 +16,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.samu.sar.dare2fitcompanionapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./src/assets/dare2fit-05-circle.png",
         "backgroundColor": "#1A202C"
-      }
+      },
+      "package": "com.samu.sar.dare2fitcompanionapp"
     },
     "web": {
       "favicon": "./src/assets/dare2fit-05-circle.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a5c50c78-ce41-4a08-9262-e409d3c3099a"
+      }
     }
   }
 }
