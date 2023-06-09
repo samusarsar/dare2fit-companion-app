@@ -9,10 +9,13 @@ import {
   ExerciseUnits,
 } from "./enums";
 
-export interface IAppContextValue {
+export interface IAppState {
   user: User | null | undefined;
   userData: IUserData | null;
-  setContext?: Dispatch<
+}
+
+export interface IAppContextValue extends IAppState {
+  setContext: Dispatch<
     SetStateAction<{
       user: User | null | undefined;
       userData: IUserData | null;
@@ -29,7 +32,8 @@ export type IHealth = {
   BMI?: number;
   activityLevel?: ActivityLevel;
   weightGoal?: WeightGoal;
-  waterGoal?: number;
+  waterTargetMetric?: number;
+  waterTargetImperial?: number;
 };
 
 export type ICollection = {
@@ -90,19 +94,6 @@ export interface IGoal {
     | IDuration
     | ICompetingWith;
 }
-
-// export interface IExercise {
-//     exerciseName: string,
-//     exerciseId: string,
-//     handle: string,
-//     type: string,
-//     units: string,
-//     difficulty: string,
-//     createdOn: string,
-//     instructions?: string,
-//     imageURL?: string
-//     lastEdited?: string,
-// }
 
 export interface IWorkout {
   workoutId: string;

@@ -30,10 +30,11 @@ export const logActivity = ({
   const todayDate = moment().format("YYYY-MM-DD");
 
   if (isWorkout) {
-    const [name, category] = (loggedValue as string).split("_");
+    const [name, category, workoutId] = (loggedValue as string).split("_");
     return update(ref(db, `logs/${handle}/${todayDate}/workout`), {
       name,
       category,
+      workoutId,
     });
   }
 

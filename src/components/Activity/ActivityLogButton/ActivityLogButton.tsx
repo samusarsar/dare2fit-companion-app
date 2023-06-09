@@ -133,7 +133,7 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
               {userWorkoutOptions.map((workout) => (
                 <Select.Item
                   key={workout.workoutId}
-                  value={`${workout.workoutName}_${workout.category}`}
+                  value={`${workout.workoutName}_${workout.category}_${workout.workoutId}`}
                   label={workout.workoutName}
                 />
               ))}
@@ -141,7 +141,7 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
                 {savedWorkoutOptions.map((workout) => (
                   <Select.Item
                     key={workout.workoutId}
-                    value={`${workout.workoutName}_${workout.category}`}
+                    value={`${workout.workoutName}_${workout.category}_${workout.workoutId}`}
                     label={workout.workoutName}
                   />
                 ))}

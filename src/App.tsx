@@ -10,14 +10,14 @@ import {
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-import { IAppContextValue, IUserData } from "./common/types";
+import { IAppState, IUserData } from "./common/types";
 import { auth, db } from "./config/firebase-config";
 import { AppContext } from "./context/AppContext/AppContext";
 import TabNavigation from "./navigation/TabNavigation/TabNavigation";
 
 export default function App() {
   const [user, loading] = useAuthState(auth);
-  const [appState, setAppState] = useState<IAppContextValue>({
+  const [appState, setAppState] = useState<IAppState>({
     user,
     userData: null,
   });
