@@ -94,6 +94,7 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
 
   return (
     <Box>
+      {console.log(savedWorkoutOptions)}
       {showLogger && (
         <VStack py={3} w="100%" space={2}>
           <Select
@@ -137,7 +138,7 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
                   label={workout.workoutName}
                 />
               ))}
-              <Select.Item value="saved" label="Saved Workouts" disabled>
+              <Select.Item value="saved" label="Saved Workouts" disabled />
                 {savedWorkoutOptions.map((workout) => (
                   <Select.Item
                     key={workout.workoutId}
@@ -145,7 +146,6 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
                     label={workout.workoutName}
                   />
                 ))}
-              </Select.Item>
             </Select>
           ) : (
             <>
