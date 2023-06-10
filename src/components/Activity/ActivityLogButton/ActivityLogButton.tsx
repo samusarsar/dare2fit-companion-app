@@ -56,10 +56,34 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
 
   const handleLog = () => {
     if (!!activityType && !!loggedValue) {
-      logActivity({ handle: userData!.handle, activityType, loggedValue });
+      let finalLoggedValue:
+        | number
+        | { name: string; category: string; workoutId: string };
+      if (activityType === "workout") {
+        const allWorkouts = [...userWorkouts, ...savedWorkouts];
+        const { workoutName, category, workoutId } = allWorkouts.find(
+          (workout) => workout.workoutId === loggedValue
+        )!;
+        finalLoggedValue = {
+          name: workoutName,
+          category,
+          workoutId,
+        };
+      } else {
+        finalLoggedValue = loggedValue as number;
+      }
+      logActivity({
+        handle: userData!.handle,
+        activityType,
+        loggedValue: finalLoggedValue,
+      });
 
       if (trainingWith.length > 0) {
-        logActivity({ handle: trainingWith, activityType, loggedValue });
+        logActivity({
+          handle: trainingWith,
+          activityType,
+          loggedValue: finalLoggedValue,
+        });
       }
 
       setShowLogger(false);
@@ -134,18 +158,18 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
               {userWorkoutOptions.map((workout) => (
                 <Select.Item
                   key={workout.workoutId}
-                  value={`${workout.workoutName}_${workout.category}_${workout.workoutId}`}
+                  value={workout.workoutId}
                   label={workout.workoutName}
                 />
               ))}
               <Select.Item value="saved" label="Saved Workouts" disabled />
-                {savedWorkoutOptions.map((workout) => (
-                  <Select.Item
-                    key={workout.workoutId}
-                    value={`${workout.workoutName}_${workout.category}_${workout.workoutId}`}
-                    label={workout.workoutName}
-                  />
-                ))}
+              {savedWorkoutOptions.map((workout) => (
+                <Select.Item
+                  key={workout.workoutId}
+                  value={workout.workoutId}
+                  label={workout.workoutName}
+                />
+              ))}
             </Select>
           ) : (
             <>

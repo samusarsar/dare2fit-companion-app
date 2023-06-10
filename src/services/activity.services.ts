@@ -9,7 +9,7 @@ import { db } from "../config/firebase-config";
  *
  * @param {string} handle - The user's handle.
  * @param {string} activityType - The type of activity.
- * @param {string|number} loggedValue - The value logged for the activity.
+ * @param {object|number} loggedValue - The value logged for the activity.
  * @return {Promise} A promise that resolves when the activity is logged.
  */
 export const logActivity = ({
@@ -19,7 +19,7 @@ export const logActivity = ({
 }: {
   handle: string;
   activityType: string;
-  loggedValue: string | number;
+  loggedValue: { name: string; category: string; workoutId: string } | number;
 }) => {
   const isWorkout =
     activityType === "workout" ||
@@ -30,12 +30,10 @@ export const logActivity = ({
   const todayDate = moment().format("YYYY-MM-DD");
 
   if (isWorkout) {
-    const [name, category, workoutId] = (loggedValue as string).split("_");
-    return update(ref(db, `logs/${handle}/${todayDate}/workout`), {
-      name,
-      category,
-      workoutId,
-    });
+    return update(
+      ref(db, `logs/${handle}/${todayDate}/workout`),
+      loggedValue as object
+    );
   }
 
   return get(ref(db, `logs/${handle}/${todayDate}/${activityType}`)).then(
