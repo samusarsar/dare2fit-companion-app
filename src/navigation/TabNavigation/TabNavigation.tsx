@@ -69,6 +69,7 @@ const TabNavigation: FC = (): ReactElement => {
               options={{
                 headerShown: false,
                 tabBarBadge: notifications ? notifications.length : undefined,
+                tabBarLabel: "Profile",
               }}
             />
             <Tab.Screen name="Activity" component={Activity} />
