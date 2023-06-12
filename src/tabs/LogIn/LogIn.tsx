@@ -41,7 +41,7 @@ const LogIn = () => {
   const { navigate } = useNavigation();
 
   const handleSubmit = () => {
-    if (form.email.split("@").length !== 2) {
+    if (!form.email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
       setForm({
         ...form,
         emailError: "Invalid email format.",
@@ -65,6 +65,7 @@ const LogIn = () => {
         });
       })
       .catch((e) => {
+        console.log(e.message)
         switch (e.message) {
           case "Firebase: Error (auth/user-not-found).":
             setForm({

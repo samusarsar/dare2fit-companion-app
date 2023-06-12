@@ -71,8 +71,11 @@ const SignUp = () => {
         form.username.length > USERNAME_MAX_LENGTH
           ? "Username must be between 2 and 20 characters."
           : "",
-      emailError:
-        form.email.split("@").length !== 2 ? "Invalid email format." : "",
+      emailError: !form.email.match(
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+      )
+        ? "Invalid email format."
+        : "",
       firstNameError:
         form.firstName.length < FIRST_NAME_MIN_LENGTH ||
         form.firstName.length > FIRST_NAME_MAX_LENGTH
@@ -91,7 +94,7 @@ const SignUp = () => {
     });
 
     if (
-      form.email.split("@").length === 2 &&
+      form.email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/) &&
       !(
         form.firstName.length < FIRST_NAME_MIN_LENGTH ||
         form.firstName.length > FIRST_NAME_MAX_LENGTH
