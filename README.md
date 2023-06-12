@@ -1,5 +1,5 @@
 <div style="display: flex; justify-content:center; margin-bottom:20px">
-    <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-05.png?alt=media&token=b30b1374-884a-46c5-b544-3b4d86fe5f41&_gl=1*2akr81*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU2MTgyMi45OS4xLjE2ODY1NjE4ODAuMC4wLjA." width="300">
+    <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-03.png?alt=media&token=b21115bc-28e7-4063-9f79-7b9e1385bcae&_gl=1*8a7wnr*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc4MzkzLjAuMC4w" width="300">
 </div>
 
 # dare2fit Companion App
@@ -16,7 +16,7 @@
 
 **OS:** <img src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" height="20"> <img src="https://img.shields.io/badge/iOS-000000?style=for-the-badge&logo=ios&logoColor=white" height="20">
 
-## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-05-circle.png?alt=media&token=c266cfd5-d1be-4e93-91f2-ef7a7f5c9fba&_gl=1*137k9cg*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU2MTgyMi45OS4xLjE2ODY1NjE5NTEuMC4wLjA."  width="50" height="50"> Why dare2fit?
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-03-circle.png?alt=media&token=ef09ae4e-d74c-4aa5-ab94-3b6ad19b8580&_gl=1*j6kovw*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc4NDA4LjAuMC4whttps://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2Flogos%2Fdare2fit-03-circle.png?alt=media&token=ef09ae4e-d74c-4aa5-ab94-3b6ad19b8580&_gl=1*j6kovw*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc4NDA4LjAuMC4w"  width="50" height="50"> Why dare2fit?
 
 - Join a wide community of fellow *darers*, who strive to push themselves every day to reach their personal goals;
 - Create custom workouts, assembled with exercises from our database;
@@ -34,7 +34,7 @@
 - The `dare2fit` companion app is a native Android and iOS extension to the full Web version.
 - It allows access to the most key and essential functionality of the tracking app, so that you can update progress anytime, anywhere - easier than ever!
 
-## <img src="https://img.icons8.com/?size=512&id=7856&format=png"  width="30" height="30"> Features
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Ffeatures.png?alt=media&token=e5fc5779-b3db-41c2-a576-947ca382ea5a&_gl=1*81oei1*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc3OTgzLjAuMC4w"  width="30" height="30"> Features
 
 - Upon opening the app you will be prompted to log into your profile:
   - Not yet a member?
@@ -53,7 +53,7 @@
 - The native app is entirely integrated with the platform, so any changes made on it will automatically be synced with the Web Platform.
 - **If you really `dare2fit` - Welcome to your journey!** ;)
 
-## <img src="https://img.icons8.com/?size=512&id=IO34MKyjiE3B&format=png"  width="30" height="30"> Getting Started
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Fstart.png?alt=media&token=ee8cc2b3-1a61-4519-9f96-59177216b4d6&_gl=1*t5p8co*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc4MDEzLjAuMC4w"  width="30" height="30"> Getting Started
 
 ### Visit site on Firebase-Hosted address:
 
@@ -76,7 +76,7 @@
 5. Select from Terminal options whether you would like to open the Android or iOS version in a simulator;
 6. `Do you really dare2fit? (Y/n)`
 
-## <img src="https://img.icons8.com/?size=512&id=8305&format=png"  width="30" height="30"> Database Scheme (Structure)
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Fdatabase.png?alt=media&token=958f4c41-6532-4e07-a31d-e437ebe00527&_gl=1*o97b6d*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc3OTQ0LjAuMC4w"  width="30" height="30"> Database Scheme (Structure)
 
 ### Goals document:
 
@@ -96,7 +96,7 @@
 
 
 
-## <img src="https://img.icons8.com/?size=512&id=2908&format=png"  width="30" height="30"> Frequently Asked Questions
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Ffaq.png?alt=media&token=12b5c59f-8faf-4cba-98f4-b6cd9329b78b&_gl=1*9f9cxq*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc3OTYxLjAuMC4w"  width="30" height="30"> Frequently Asked Questions
 
 - **How can I create a profile on dare2fit?**
   - To create a profile you simply need to click **`Log In`** on the top right of the navigation menu or found anywhere else around the website as well and navigate to the **`Sign Up`** page from there. Then you need to enter your first and last names, email address, telephone number, select a username, create a password and you're done!
@@ -104,7 +104,7 @@
   - `dare2fit Companion App` is a native tool that is designed to streamline your use of the dare2fit Web Application. The native app allows access to core functionality, such as logging activity and food and water intake, as well as checking notifications right from your phone! Due to the full integration of the native app with the Web app, any changes made on one platform will be present on the other, so you can just focus on attaining your goals!
   - The `dare2fit Companion App` is meant ot be used in accompaniment to the `dare2fit` Web platform.
 
-## <img src="https://img.icons8.com/?size=512&id=122809&format=png"  width="30" height="30"> Community and Contributions
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Fcommunity.png?alt=media&token=893ecd6f-908b-4c1e-9223-25d82f1bb8b1&_gl=1*watnuy*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc3OTI1LjAuMC4w"  width="30" height="30"> Community and Contributions
 
 The `dare2fit` platform is developed by the infamous **Team 16** (Simona Ilcheva and Samuil Sarandev).
 
@@ -112,6 +112,6 @@ The creators vow to engage in open, two-sided communication with the platform's 
 
 Our team works very hard, day and night, to provide you with the best possible experience of the interior design world. *Forever-free-of-charge.*
 
-## <img src="https://img.icons8.com/?size=512&id=2969&format=png"  width="30" height="30"> External Resources
+## <img src="https://firebasestorage.googleapis.com/v0/b/dare2fit-f6eb4.appspot.com/o/assets%2FREADME-images%2Fresources.png?alt=media&token=9fe5f5ee-5413-4af3-a50b-c7f01650d1fe&_gl=1*4u0xo2*_ga*MjExMzk5MTA5MC4xNjgzMjcwMjg1*_ga_CW55HF8NVT*MTY4NjU3Njg5Ni4xMDMuMS4xNjg2NTc3OTk4LjAuMC4w"  width="30" height="30"> External Resources
 
 The `dare2fit` platform is powered by **Firebase** in agreement with their provided *Terms and Conditions* for fair usage of their **Spark Plan**.
