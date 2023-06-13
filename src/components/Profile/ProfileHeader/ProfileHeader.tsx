@@ -1,5 +1,14 @@
 /* eslint-disable max-len */
 import {
+  MediaTypeOptions,
+  getCameraPermissionsAsync,
+  getMediaLibraryPermissionsAsync,
+  launchCameraAsync,
+  launchImageLibraryAsync,
+  requestCameraPermissionsAsync,
+  requestMediaLibraryPermissionsAsync,
+} from "expo-image-picker";
+import {
   Text,
   HStack,
   VStack,
@@ -8,18 +17,20 @@ import {
   Button,
   Badge,
   Avatar,
+  Popover,
 } from "native-base";
 import { FC, ReactElement, useContext, useState } from "react";
 
 import { UserRoles } from "../../../common/enums";
 import { AppContext } from "../../../context/AppContext/AppContext";
 import { logoutUser } from "../../../services/auth.services";
-import { changeUserRole } from "../../../services/user.services";
+import { changeAvatar, changeUserRole } from "../../../services/user.services";
 
 const ProfileHeader: FC = (): ReactElement => {
   const { userData, setContext } = useContext(AppContext);
 
   const [loadingBtn, setLoadingBtn] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const contrastColor = useColorModeValue("brand.dark", "brand.light");
 
@@ -40,6 +51,48 @@ const ProfileHeader: FC = (): ReactElement => {
     );
   };
 
+  const handleAvatarChange = (type: string) => {
+    const getPermissionFn =
+      type === "select"
+        ? getMediaLibraryPermissionsAsync
+        : getCameraPermissionsAsync;
+
+    const requestPermissionFn =
+      type === "select"
+        ? requestMediaLibraryPermissionsAsync
+        : requestCameraPermissionsAsync;
+
+    const launchFn =
+      type === "select" ? launchImageLibraryAsync : launchCameraAsync;
+
+    const options = {
+      base64: true,
+      mediaTypes: MediaTypeOptions.Images,
+    };
+
+    getPermissionFn()
+      .then((res) => {
+        if (!res.granted) {
+          return requestPermissionFn();
+        }
+
+        return res;
+      })
+      .then((resRequest) => {
+        if (resRequest.granted) {
+          launchFn(options).then((res) => {
+            if (!res.canceled) {
+              fetch(res.assets[0].uri)
+                .then((fetchedUri) => fetchedUri.blob())
+                .then((blobFile) => changeAvatar(userData!.handle, blobFile));
+            }
+          });
+        } else {
+          return null;
+        }
+      });
+  };
+
   const handleLogOut = () => {
     setLoadingBtn(true);
     logoutUser()
@@ -54,20 +107,64 @@ const ProfileHeader: FC = (): ReactElement => {
 
   return (
     <VStack w="100%" space={2} alignItems="center">
-      {userData!.avatarURL ? (
-        <Avatar
-          source={{ uri: `${userData!.avatarURL}` }}
-          boxSize="120px"
-          borderColor={contrastColor}
-          borderWidth={2}
-        >
-          {userData!.handle[0]}
-        </Avatar>
-      ) : (
-        <Avatar boxSize="120px" borderColor={contrastColor} borderWidth={2}>
-          {userData!.handle[0]}
-        </Avatar>
-      )}
+      <Popover
+        isOpen={isOpen}
+        onClose={() => setIsOpen(!isOpen)}
+        placement="top"
+        trigger={(triggerProps) => (
+          <Button
+            variant="ghost"
+            rounded="full"
+            {...triggerProps}
+            onPress={() => setIsOpen(true)}
+          >
+            {userData!.avatarURL ? (
+              <Avatar
+                source={{ uri: `${userData!.avatarURL}` }}
+                boxSize="120px"
+                borderColor={contrastColor}
+                borderWidth={2}
+              >
+                {userData!.handle[0]}
+              </Avatar>
+            ) : (
+              <Avatar
+                boxSize="120px"
+                borderColor={contrastColor}
+                borderWidth={2}
+              >
+                {userData!.handle[0]}
+              </Avatar>
+            )}
+          </Button>
+        )}
+      >
+        <Popover.Content>
+          <Popover.Body>
+            <Button.Group>
+              <Button
+                colorScheme="purple"
+                variant="subtle"
+                onPress={() => {
+                  handleAvatarChange("select");
+                  setIsOpen(false);
+                }}
+              >
+                Select Image
+              </Button>
+              <Button
+                colorScheme="purple"
+                onPress={() => {
+                  handleAvatarChange("take");
+                  setIsOpen(false);
+                }}
+              >
+                Take Photo
+              </Button>
+            </Button.Group>
+          </Popover.Body>
+        </Popover.Content>
+      </Popover>
       <Heading size="md">{`${userData!.firstName} ${
         userData!.lastName
       }`}</Heading>

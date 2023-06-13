@@ -295,10 +295,10 @@ export const editUserDetails = ({
 /**
  * Changes the avatar of a user.
  * @param {string} handle - The handle of the user.
- * @param {File} avatar - The new avatar file.
+ * @param {File | Blob} avatar - The new avatar file.
  * @return {Promise} - A promise that resolves when the avatar is changed.
  */
-export const changeAvatar = (handle: string, avatar: File) => {
+export const changeAvatar = (handle: string, avatar: File | Blob) => {
   const fileRef = sRef(storage, `users/${handle}/avatar`);
   return uploadBytes(fileRef, avatar)
     .then(() => getDownloadURL(fileRef))
