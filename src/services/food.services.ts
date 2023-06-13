@@ -52,7 +52,6 @@ Removes the logged food entry for a specific food item from the user's daily log
 @return {Promise} A promise that resolves when the food entry is successfully removed.
 */
 export const unlogFood = (handle: string, foodName: string) => {
-    console.log(foodName);
     const todayDate = moment().format('YYYY-MM-DD');
 
     return update(ref(db, `logs/${handle}/${todayDate}/calories/`), { [foodName]: null });

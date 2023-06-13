@@ -65,7 +65,6 @@ const LogIn = () => {
         });
       })
       .catch((e) => {
-        console.log(e.message)
         switch (e.message) {
           case "Firebase: Error (auth/user-not-found).":
             setForm({

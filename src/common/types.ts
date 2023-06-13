@@ -115,7 +115,7 @@ export interface IWorkoutFormValues {
   duration?: string;
   calories?: string;
   instructions?: string;
-  exercises: IWorkoutExercise[] | []; // TODO
+  exercises: IWorkoutExercise[] | [];
 }
 
 export interface IExerciseFormValues {

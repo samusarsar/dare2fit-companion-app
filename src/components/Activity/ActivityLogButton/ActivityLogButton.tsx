@@ -118,7 +118,6 @@ const ActivityLogButton: FC<{ todayLog: ITodayLog | null }> = ({
 
   return (
     <Box>
-      {console.log(savedWorkoutOptions)}
       {showLogger && (
         <VStack py={3} w="100%" space={2}>
           <Select
