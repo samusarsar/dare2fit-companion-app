@@ -47,7 +47,7 @@ const CalorieLogButton: FC = (): ReactElement => {
         <VStack py={3} w="100%" space={2}>
           <Input
             onChangeText={setFoodName}
-            placeholder="search for food by name"
+            placeholder="search for food by name or water"
           />
           <Button
             w="100%"
@@ -56,7 +56,7 @@ const CalorieLogButton: FC = (): ReactElement => {
             isDisabled={!foodName}
             isLoading={isLoading}
           >
-            Search Food
+            Search
           </Button>
           <Divider />
 
@@ -87,7 +87,7 @@ const CalorieLogButton: FC = (): ReactElement => {
         <>
           {amBlocked && (
             <Text textAlign="center" color="brand.red">
-              You are blocked and can&apos;t log food.
+              You are blocked and can&apos;t log food and water.
             </Text>
           )}
           <Button
@@ -96,7 +96,7 @@ const CalorieLogButton: FC = (): ReactElement => {
             onPress={() => setShowLogger(true)}
             isDisabled={amBlocked}
           >
-            Log Food
+            Log Food & Water
           </Button>
         </>
       )}
