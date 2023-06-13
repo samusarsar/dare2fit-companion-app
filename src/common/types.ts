@@ -84,8 +84,6 @@ export interface IGoal {
   target: number;
   units: string;
   author: string;
-  isExpired?: boolean;
-  initDate?: string;
   [key: string]:
     | number
     | string
